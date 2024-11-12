@@ -22,3 +22,5 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { Klunkaz } from "./contracts/Klunkaz";
 export { Klunkaz__factory } from "./factories/contracts/Klunkaz__factory";
+export type { BikeLib } from "./contracts/libraries/BikeLib";
+export { BikeLib__factory } from "./factories/contracts/libraries/BikeLib__factory";

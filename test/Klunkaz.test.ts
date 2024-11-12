@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { Contract } from "ethers";
-import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
+import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
 
 describe("Klunkaz", function () {
     let klunkazContract: Contract;
-    let owner: SignerWithAddress;
-    let addr1: SignerWithAddress;
-    let addr2: SignerWithAddress;
+    let owner: HardhatEthersSigner;
+    let addr1: HardhatEthersSigner;
+    let addr2: HardhatEthersSigner;
 
     const sampleBikeDetails = {
         bikeBrand: "Trek",
@@ -32,7 +32,7 @@ describe("Klunkaz", function () {
         const Klunkaz = await ethers.getContractFactory("Klunkaz");
         [owner, addr1, addr2] = await ethers.getSigners();
         klunkazContract = await Klunkaz.deploy();
-        await klunkazContract.waitForDeployment();
+        // Remove the .deployed() call as it's not needed in ethers v6
     });
 
     describe("Bike Listing and Ownership", function () {
@@ -46,9 +46,9 @@ describe("Klunkaz", function () {
             );
 
             const bike = await klunkazContract.getBike(1);
-            expect(bike.owner).to.equal(addr1.address);
+            expect(bike.owner).to.equal(await addr1.getAddress());
             expect(bike.price).to.equal(price);
-            expect(await klunkazContract.ownerOf(1)).to.equal(addr1.address);
+            expect(await klunkazContract.ownerOf(1)).to.equal(await addr1.getAddress());
         });
 
         it("Should transfer bike ownership through ERC721 transfer", async function () {
@@ -60,12 +60,16 @@ describe("Klunkaz", function () {
                 sampleBikeMetadata
             );
 
-            await klunkazContract.connect(addr1).approve(addr2.address, 1);
-            await klunkazContract.connect(addr2).transferFrom(addr1.address, addr2.address, 1);
+            await klunkazContract.connect(addr1).approve(await addr2.getAddress(), 1);
+            await klunkazContract.connect(addr2).transferFrom(
+                await addr1.getAddress(), 
+                await addr2.getAddress(), 
+                1
+            );
 
             const bike = await klunkazContract.getBike(1);
-            expect(bike.owner).to.equal(addr2.address);
-            expect(await klunkazContract.ownerOf(1)).to.equal(addr2.address);
+            expect(bike.owner).to.equal(await addr2.getAddress());
+            expect(await klunkazContract.ownerOf(1)).to.equal(await addr2.getAddress());
         });
     });
 
@@ -96,12 +100,10 @@ describe("Klunkaz", function () {
         });
 
         it("Should unflag bike as stolen", async function () {
-            // First mark as stolen
             await klunkazContract.connect(addr1).markAsStolen(1);
             let bike = await klunkazContract.getBike(1);
             expect(bike.metadata.isStolen).to.be.true;
 
-            // Then unflag as stolen
             await klunkazContract.connect(addr1).unflagBikeAsStolen(1);
             bike = await klunkazContract.getBike(1);
             expect(bike.metadata.isStolen).to.be.false;

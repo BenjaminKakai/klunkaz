@@ -45,6 +45,10 @@ declare module "hardhat/types/runtime" {
       name: "Klunkaz",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Klunkaz__factory>;
+    getContractFactory(
+      name: "BikeLib",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BikeLib__factory>;
 
     getContractAt(
       name: "Ownable",
@@ -86,6 +90,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.Klunkaz>;
+    getContractAt(
+      name: "BikeLib",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BikeLib>;
 
     deployContract(
       name: "Ownable",
@@ -119,6 +128,10 @@ declare module "hardhat/types/runtime" {
       name: "Klunkaz",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Klunkaz>;
+    deployContract(
+      name: "BikeLib",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BikeLib>;
 
     deployContract(
       name: "Ownable",
@@ -160,6 +173,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Klunkaz>;
+    deployContract(
+      name: "BikeLib",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BikeLib>;
 
     // default types
     getContractFactory(
