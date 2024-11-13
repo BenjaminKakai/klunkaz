@@ -3,7 +3,7 @@ import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react";
 
 export function UserProfile() {
   const address = useAddress();
-  const { contract } = useContract("YOUR_CONTRACT_ADDRESS");
+  const { contract } = useContract("0x5FbDB2315678afecb367f032d93F642f64180aa3");
   const { data: userBikes } = useContractRead(contract, "getUserBikes", [address]);
 
   return (

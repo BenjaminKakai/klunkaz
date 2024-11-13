@@ -22,7 +22,7 @@ interface Bike {
 export function BikeList() {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<'all' | 'rent' | 'sale'>('all');
-  const { contract } = useContract("YOUR_CONTRACT_ADDRESS");
+  const { contract } = useContract("0x5FbDB2315678afecb367f032d93F642f64180aa3");
   const { data: bikes, isLoading } = useContractRead(contract, "getAllBikes");
 
   // Filter bikes based on type

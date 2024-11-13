@@ -2,10 +2,10 @@
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 export function TransactionHistory() {
-  const { contract } = useContract("YOUR_CONTRACT_ADDRESS");
+  const { contract } = useContract("0x5FbDB2315678afecb367f032d93F642f64180aa3");
   const { data: transactions } = useContractRead(contract, "getTransactionHistory");
 
-  return (
+  return 
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
       <div className="space-y-2">
