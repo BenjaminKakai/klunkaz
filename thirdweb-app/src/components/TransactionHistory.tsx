@@ -1,8 +1,9 @@
+'use client';
+
 import React, { useState, useMemo } from 'react';
 import { useContract, useContractRead, useAddress } from "@thirdweb-dev/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -19,7 +20,6 @@ import {
   CheckCircle2,
   XCircle,
   Clock3,
-  Filter,
   Bike
 } from "lucide-react";
 
@@ -46,7 +46,6 @@ export function TransactionHistory() {
   const { data: transactions, isLoading } = useContractRead(contract, "getTransactionHistory");
   const { data: bikeDetails } = useContractRead(contract, "getAllBikes");
 
-  // Create a mapping of bike IDs to bike details for quick lookup
   const bikeMap = useMemo(() => {
     if (!bikeDetails) return {};
     return bikeDetails.reduce((acc: any, bike: any) => {
@@ -58,11 +57,11 @@ export function TransactionHistory() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
       case 'pending':
-        return <Clock3 className="w-4 h-4 text-yellow-500" />;
+        return <Clock3 className="h-4 w-4 text-yellow-500" />;
       case 'failed':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        return <XCircle className="h-4 w-4 text-red-500" />;
       default:
         return null;
     }
@@ -71,13 +70,13 @@ export function TransactionHistory() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case 'purchase':
-        return <Tag className="w-4 h-4" />;
+        return <Tag className="h-4 w-4" />;
       case 'rental':
-        return <ArrowUpRight className="w-4 h-4" />;
+        return <ArrowUpRight className="h-4 w-4" />;
       case 'return':
-        return <ArrowDownLeft className="w-4 h-4" />;
+        return <ArrowDownLeft className="h-4 w-4" />;
       default:
-        return <Bike className="w-4 h-4" />;
+        return <Bike className="h-4 w-4" />;
     }
   };
 
@@ -88,7 +87,6 @@ export function TransactionHistory() {
       const typeMatch = filterType === 'all' || tx.type === filterType;
       const statusMatch = filterStatus === 'all' || tx.status === filterStatus;
       
-      // Time range filtering
       const now = Date.now();
       const txTime = tx.timestamp * 1000;
       const timeMatch = filterTimeRange === 'all' ||
@@ -96,7 +94,6 @@ export function TransactionHistory() {
         (filterTimeRange === 'week' && now - txTime <= 604800000) ||
         (filterTimeRange === 'month' && now - txTime <= 2592000000);
 
-      // Tab filtering (all, sent, received)
       const tabMatch = activeTab === 'all' ||
         (activeTab === 'sent' && tx.buyer === address) ||
         (activeTab === 'received' && tx.seller === address);
@@ -107,8 +104,8 @@ export function TransactionHistory() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      <div className="flex min-h-[200px] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900" />
       </div>
     );
   }
@@ -117,7 +114,7 @@ export function TransactionHistory() {
     <div className="container mx-auto p-4">
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <CardTitle className="text-2xl">Transaction History</CardTitle>
             <div className="flex gap-2">
               <Select value={filterTimeRange} onValueChange={setFilterTimeRange}>
@@ -172,8 +169,8 @@ export function TransactionHistory() {
                 {filteredTransactions.map((tx: Transaction) => {
                   const bike = bikeMap[tx.bikeId];
                   return (
-                    <div key={tx.id} className="border rounded-lg p-4 hover:bg-gray-50">
-                      <div className="flex justify-between items-start">
+                    <div key={tx.id} className="rounded-lg border p-4 hover:bg-gray-50">
+                      <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
                           {getTransactionIcon(tx.type)}
                           <div>
@@ -194,11 +191,11 @@ export function TransactionHistory() {
 
                       <div className="mt-4 flex items-center gap-6 text-sm text-gray-500">
                         <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="h-4 w-4" />
                           {new Date(tx.timestamp * 1000).toLocaleDateString()}
                         </div>
                         <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
+                          <Clock className="h-4 w-4" />
                           {new Date(tx.timestamp * 1000).toLocaleTimeString()}
                         </div>
                       </div>
@@ -214,7 +211,7 @@ export function TransactionHistory() {
                 })}
 
                 {filteredTransactions.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="py-8 text-center text-gray-500">
                     No transactions found
                   </div>
                 )}

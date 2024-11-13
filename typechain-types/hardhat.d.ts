@@ -42,9 +42,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
+      name: "BikeLib",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BikeLib__factory>;
+    getContractFactory(
       name: "Klunkaz",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Klunkaz__factory>;
+    getContractFactory(
+      name: "KlunkazBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.KlunkazBase__factory>;
+    getContractFactory(
+      name: "KlunkazMain",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.KlunkazMain__factory>;
+    getContractFactory(
+      name: "KlunkazStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.KlunkazStorage__factory>;
     getContractFactory(
       name: "BikeLib",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -86,10 +102,30 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
+      name: "BikeLib",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BikeLib>;
+    getContractAt(
       name: "Klunkaz",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.Klunkaz>;
+    getContractAt(
+      name: "KlunkazBase",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.KlunkazBase>;
+    getContractAt(
+      name: "KlunkazMain",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.KlunkazMain>;
+    getContractAt(
+      name: "KlunkazStorage",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.KlunkazStorage>;
     getContractAt(
       name: "BikeLib",
       address: string | ethers.Addressable,
@@ -125,9 +161,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
     deployContract(
+      name: "BikeLib",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BikeLib>;
+    deployContract(
       name: "Klunkaz",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Klunkaz>;
+    deployContract(
+      name: "KlunkazBase",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazBase>;
+    deployContract(
+      name: "KlunkazMain",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazMain>;
+    deployContract(
+      name: "KlunkazStorage",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazStorage>;
     deployContract(
       name: "BikeLib",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -169,10 +221,30 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
     deployContract(
+      name: "BikeLib",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BikeLib>;
+    deployContract(
       name: "Klunkaz",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Klunkaz>;
+    deployContract(
+      name: "KlunkazBase",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazBase>;
+    deployContract(
+      name: "KlunkazMain",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazMain>;
+    deployContract(
+      name: "KlunkazStorage",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.KlunkazStorage>;
     deployContract(
       name: "BikeLib",
       args: any[],

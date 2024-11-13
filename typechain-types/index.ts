@@ -20,7 +20,13 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
+export type { BikeLib } from "./contracts/BikeLib";
+export { BikeLib__factory } from "./factories/contracts/BikeLib__factory";
 export type { Klunkaz } from "./contracts/Klunkaz";
 export { Klunkaz__factory } from "./factories/contracts/Klunkaz__factory";
-export type { BikeLib } from "./contracts/libraries/BikeLib";
-export { BikeLib__factory } from "./factories/contracts/libraries/BikeLib__factory";
+export type { KlunkazBase } from "./contracts/KlunkazBase";
+export { KlunkazBase__factory } from "./factories/contracts/KlunkazBase__factory";
+export type { KlunkazMain } from "./contracts/KlunkazMain";
+export { KlunkazMain__factory } from "./factories/contracts/KlunkazMain__factory";
+export type { KlunkazStorage } from "./contracts/KlunkazStorage";
+export { KlunkazStorage__factory } from "./factories/contracts/KlunkazStorage__factory";

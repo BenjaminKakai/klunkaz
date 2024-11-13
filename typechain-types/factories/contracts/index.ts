@@ -2,4 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as libraries from "./libraries";
+export { BikeLib__factory } from "./BikeLib__factory";
 export { Klunkaz__factory } from "./Klunkaz__factory";
+export { KlunkazBase__factory } from "./KlunkazBase__factory";
+export { KlunkazMain__factory } from "./KlunkazMain__factory";
+export { KlunkazStorage__factory } from "./KlunkazStorage__factory";

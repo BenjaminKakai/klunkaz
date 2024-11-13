@@ -55,7 +55,6 @@ export declare namespace Klunkaz {
   export type BikeMetadataStruct = {
     category: string;
     images: string;
-    bikeAddress: string;
     bikeFeatures: string;
     isStolen: boolean;
     isInsured: boolean;
@@ -64,12 +63,12 @@ export declare namespace Klunkaz {
     isRented: boolean;
     currentRenter: AddressLike;
     rentalEndTime: BigNumberish;
+    securityDeposit: BigNumberish;
   };
 
   export type BikeMetadataStructOutput = [
     category: string,
     images: string,
-    bikeAddress: string,
     bikeFeatures: string,
     isStolen: boolean,
     isInsured: boolean,
@@ -77,11 +76,11 @@ export declare namespace Klunkaz {
     rentalPrice: bigint,
     isRented: boolean,
     currentRenter: string,
-    rentalEndTime: bigint
+    rentalEndTime: bigint,
+    securityDeposit: bigint
   ] & {
     category: string;
     images: string;
-    bikeAddress: string;
     bikeFeatures: string;
     isStolen: boolean;
     isInsured: boolean;
@@ -90,6 +89,7 @@ export declare namespace Klunkaz {
     isRented: boolean;
     currentRenter: string;
     rentalEndTime: bigint;
+    securityDeposit: bigint;
   };
 
   export type BikeStruct = {
@@ -98,8 +98,6 @@ export declare namespace Klunkaz {
     price: BigNumberish;
     details: Klunkaz.BikeDetailsStruct;
     metadata: Klunkaz.BikeMetadataStruct;
-    reviewers: AddressLike[];
-    reviews: string[];
   };
 
   export type BikeStructOutput = [
@@ -107,43 +105,28 @@ export declare namespace Klunkaz {
     owner: string,
     price: bigint,
     details: Klunkaz.BikeDetailsStructOutput,
-    metadata: Klunkaz.BikeMetadataStructOutput,
-    reviewers: string[],
-    reviews: string[]
+    metadata: Klunkaz.BikeMetadataStructOutput
   ] & {
     productID: bigint;
     owner: string;
     price: bigint;
     details: Klunkaz.BikeDetailsStructOutput;
     metadata: Klunkaz.BikeMetadataStructOutput;
-    reviewers: string[];
-    reviews: string[];
   };
 
   export type ReviewStruct = {
     reviewer: AddressLike;
-    productId: BigNumberish;
     rating: BigNumberish;
     comment: string;
-    likes: BigNumberish;
     timestamp: BigNumberish;
   };
 
   export type ReviewStructOutput = [
     reviewer: string,
-    productId: bigint,
     rating: bigint,
     comment: string,
-    likes: bigint,
     timestamp: bigint
-  ] & {
-    reviewer: string;
-    productId: bigint;
-    rating: bigint;
-    comment: string;
-    likes: bigint;
-    timestamp: bigint;
-  };
+  ] & { reviewer: string; rating: bigint; comment: string; timestamp: bigint };
 }
 
 export interface KlunkazInterface extends Interface {
@@ -153,30 +136,19 @@ export interface KlunkazInterface extends Interface {
       | "approve"
       | "balanceOf"
       | "bikeIndex"
-      | "deleteReview"
       | "endRental"
-      | "getAllBikes"
       | "getApproved"
       | "getBike"
-      | "getBikeDetails"
-      | "getBikeMetadata"
-      | "getHighestRatedProduct"
       | "getProductReviews"
       | "getRentalHistory"
-      | "getUserReviews"
-      | "hasLikedReview"
-      | "insureBike"
       | "isApprovedForAll"
-      | "likeReview"
       | "listBike"
       | "markAsStolen"
       | "name"
       | "owner"
       | "ownerOf"
-      | "registerTracker"
       | "renounceOwnership"
       | "rentBike"
-      | "reviewsCounter"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
@@ -185,31 +157,19 @@ export interface KlunkazInterface extends Interface {
       | "tokenURI"
       | "transferFrom"
       | "transferOwnership"
-      | "unflagBikeAsStolen"
-      | "updateListingType"
       | "updatePrice"
-      | "updateRentalPrice"
+      | "verifyUser"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
       | "Approval"
       | "ApprovalForAll"
-      | "BikeInsuranceUpdated"
       | "BikeListed"
       | "BikeRented"
-      | "BikeResold"
-      | "BikeSold"
-      | "BikeStatusUpdated"
-      | "ListingTypeUpdated"
       | "OwnershipTransferred"
-      | "PriceUpdated"
       | "RentalEnded"
-      | "RentalPriceUpdated"
       | "ReviewAdded"
-      | "ReviewDeleted"
-      | "ReviewLiked"
-      | "TrackerRegistered"
       | "Transfer"
   ): EventFragment;
 
@@ -227,16 +187,8 @@ export interface KlunkazInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "bikeIndex", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "deleteReview",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "endRental",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllBikes",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -247,18 +199,6 @@ export interface KlunkazInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getBikeDetails",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getBikeMetadata",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getHighestRatedProduct",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "getProductReviews",
     values: [BigNumberish]
   ): string;
@@ -267,33 +207,15 @@ export interface KlunkazInterface extends Interface {
     values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "getUserReviews",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasLikedReview",
-    values: [BigNumberish, BigNumberish, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "insureBike",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "likeReview",
-    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "listBike",
     values: [
       BigNumberish,
       Klunkaz.BikeDetailsStruct,
-      Klunkaz.BikeMetadataStruct,
-      BigNumberish,
-      BigNumberish
+      Klunkaz.BikeMetadataStruct
     ]
   ): string;
   encodeFunctionData(
@@ -307,20 +229,12 @@ export interface KlunkazInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "registerTracker",
-    values: [BigNumberish, AddressLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "rentBike",
     values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "reviewsCounter",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -352,52 +266,24 @@ export interface KlunkazInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "unflagBikeAsStolen",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateListingType",
-    values: [BigNumberish, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "updatePrice",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateRentalPrice",
-    values: [BigNumberish, BigNumberish]
+    functionFragment: "verifyUser",
+    values: [AddressLike]
   ): string;
 
   decodeFunctionResult(functionFragment: "addReview", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bikeIndex", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "deleteReview",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "endRental", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getAllBikes",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getBike", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getBikeDetails",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getBikeMetadata",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getHighestRatedProduct",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "getProductReviews",
     data: BytesLike
@@ -407,19 +293,9 @@ export interface KlunkazInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getUserReviews",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasLikedReview",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "insureBike", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "likeReview", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listBike", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "markAsStolen",
@@ -429,18 +305,10 @@ export interface KlunkazInterface extends Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "registerTracker",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "rentBike", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "reviewsCounter",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
     data: BytesLike
@@ -468,21 +336,10 @@ export interface KlunkazInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "unflagBikeAsStolen",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateListingType",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "updatePrice",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateRentalPrice",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "verifyUser", data: BytesLike): Result;
 }
 
 export namespace ApprovalEvent {
@@ -525,19 +382,6 @@ export namespace ApprovalForAllEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace BikeInsuranceUpdatedEvent {
-  export type InputTuple = [id: BigNumberish, isInsured: boolean];
-  export type OutputTuple = [id: bigint, isInsured: boolean];
-  export interface OutputObject {
-    id: bigint;
-    isInsured: boolean;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace BikeListedEvent {
   export type InputTuple = [
     id: BigNumberish,
@@ -560,96 +404,13 @@ export namespace BikeRentedEvent {
   export type InputTuple = [
     bikeId: BigNumberish,
     renter: AddressLike,
-    duration: BigNumberish,
-    totalPrice: BigNumberish
+    duration: BigNumberish
   ];
-  export type OutputTuple = [
-    bikeId: bigint,
-    renter: string,
-    duration: bigint,
-    totalPrice: bigint
-  ];
+  export type OutputTuple = [bikeId: bigint, renter: string, duration: bigint];
   export interface OutputObject {
     bikeId: bigint;
     renter: string;
     duration: bigint;
-    totalPrice: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace BikeResoldEvent {
-  export type InputTuple = [
-    id: BigNumberish,
-    oldOwner: AddressLike,
-    newOwner: AddressLike,
-    price: BigNumberish
-  ];
-  export type OutputTuple = [
-    id: bigint,
-    oldOwner: string,
-    newOwner: string,
-    price: bigint
-  ];
-  export interface OutputObject {
-    id: bigint;
-    oldOwner: string;
-    newOwner: string;
-    price: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace BikeSoldEvent {
-  export type InputTuple = [
-    id: BigNumberish,
-    oldOwner: AddressLike,
-    newOwner: AddressLike,
-    price: BigNumberish
-  ];
-  export type OutputTuple = [
-    id: bigint,
-    oldOwner: string,
-    newOwner: string,
-    price: bigint
-  ];
-  export interface OutputObject {
-    id: bigint;
-    oldOwner: string;
-    newOwner: string;
-    price: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace BikeStatusUpdatedEvent {
-  export type InputTuple = [id: BigNumberish, isStolen: boolean];
-  export type OutputTuple = [id: bigint, isStolen: boolean];
-  export interface OutputObject {
-    id: bigint;
-    isStolen: boolean;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace ListingTypeUpdatedEvent {
-  export type InputTuple = [bikeId: BigNumberish, listingType: BigNumberish];
-  export type OutputTuple = [bikeId: bigint, listingType: bigint];
-  export interface OutputObject {
-    bikeId: bigint;
-    listingType: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -670,19 +431,6 @@ export namespace OwnershipTransferredEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace PriceUpdatedEvent {
-  export type InputTuple = [bikeId: BigNumberish, newPrice: BigNumberish];
-  export type OutputTuple = [bikeId: bigint, newPrice: bigint];
-  export interface OutputObject {
-    bikeId: bigint;
-    newPrice: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace RentalEndedEvent {
   export type InputTuple = [bikeId: BigNumberish, renter: AddressLike];
   export type OutputTuple = [bikeId: bigint, renter: string];
@@ -696,88 +444,21 @@ export namespace RentalEndedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace RentalPriceUpdatedEvent {
-  export type InputTuple = [bikeId: BigNumberish, newPrice: BigNumberish];
-  export type OutputTuple = [bikeId: bigint, newPrice: bigint];
-  export interface OutputObject {
-    bikeId: bigint;
-    newPrice: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace ReviewAddedEvent {
   export type InputTuple = [
     productId: BigNumberish,
     reviewer: AddressLike,
-    rating: BigNumberish,
-    comment: string
+    rating: BigNumberish
   ];
   export type OutputTuple = [
     productId: bigint,
     reviewer: string,
-    rating: bigint,
-    comment: string
+    rating: bigint
   ];
   export interface OutputObject {
     productId: bigint;
     reviewer: string;
     rating: bigint;
-    comment: string;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace ReviewDeletedEvent {
-  export type InputTuple = [productId: BigNumberish, reviewIndex: BigNumberish];
-  export type OutputTuple = [productId: bigint, reviewIndex: bigint];
-  export interface OutputObject {
-    productId: bigint;
-    reviewIndex: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace ReviewLikedEvent {
-  export type InputTuple = [
-    productId: BigNumberish,
-    reviewIndex: BigNumberish,
-    liker: AddressLike,
-    likes: BigNumberish
-  ];
-  export type OutputTuple = [
-    productId: bigint,
-    reviewIndex: bigint,
-    liker: string,
-    likes: bigint
-  ];
-  export interface OutputObject {
-    productId: bigint;
-    reviewIndex: bigint;
-    liker: string;
-    likes: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace TrackerRegisteredEvent {
-  export type InputTuple = [bikeId: BigNumberish, deviceAddress: AddressLike];
-  export type OutputTuple = [bikeId: bigint, deviceAddress: string];
-  export interface OutputObject {
-    bikeId: bigint;
-    deviceAddress: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -862,15 +543,7 @@ export interface Klunkaz extends BaseContract {
 
   bikeIndex: TypedContractMethod<[], [bigint], "view">;
 
-  deleteReview: TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
   endRental: TypedContractMethod<[bikeId: BigNumberish], [void], "nonpayable">;
-
-  getAllBikes: TypedContractMethod<[], [Klunkaz.BikeStructOutput[]], "view">;
 
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
@@ -879,20 +552,6 @@ export interface Klunkaz extends BaseContract {
     [Klunkaz.BikeStructOutput],
     "view"
   >;
-
-  getBikeDetails: TypedContractMethod<
-    [bikeId: BigNumberish],
-    [Klunkaz.BikeDetailsStructOutput],
-    "view"
-  >;
-
-  getBikeMetadata: TypedContractMethod<
-    [bikeId: BigNumberish],
-    [Klunkaz.BikeMetadataStructOutput],
-    "view"
-  >;
-
-  getHighestRatedProduct: TypedContractMethod<[], [bigint], "view">;
 
   getProductReviews: TypedContractMethod<
     [productId: BigNumberish],
@@ -906,35 +565,17 @@ export interface Klunkaz extends BaseContract {
     "view"
   >;
 
-  getUserReviews: TypedContractMethod<[user: AddressLike], [bigint[]], "view">;
-
-  hasLikedReview: TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish, user: AddressLike],
-    [boolean],
-    "view"
-  >;
-
-  insureBike: TypedContractMethod<[bikeId: BigNumberish], [void], "payable">;
-
   isApprovedForAll: TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
 
-  likeReview: TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
   listBike: TypedContractMethod<
     [
       price: BigNumberish,
       details: Klunkaz.BikeDetailsStruct,
-      metadata: Klunkaz.BikeMetadataStruct,
-      listingType: BigNumberish,
-      rentalPrice: BigNumberish
+      metadata: Klunkaz.BikeMetadataStruct
     ],
     [bigint],
     "nonpayable"
@@ -952,12 +593,6 @@ export interface Klunkaz extends BaseContract {
 
   ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
-  registerTracker: TypedContractMethod<
-    [bikeId: BigNumberish, deviceAddress: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
   rentBike: TypedContractMethod<
@@ -965,8 +600,6 @@ export interface Klunkaz extends BaseContract {
     [void],
     "payable"
   >;
-
-  reviewsCounter: TypedContractMethod<[], [bigint], "view">;
 
   "safeTransferFrom(address,address,uint256)": TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
@@ -1013,33 +646,13 @@ export interface Klunkaz extends BaseContract {
     "nonpayable"
   >;
 
-  unflagBikeAsStolen: TypedContractMethod<
-    [bikeId: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  updateListingType: TypedContractMethod<
-    [
-      bikeId: BigNumberish,
-      newListingType: BigNumberish,
-      rentalPrice: BigNumberish
-    ],
-    [void],
-    "nonpayable"
-  >;
-
   updatePrice: TypedContractMethod<
     [bikeId: BigNumberish, newPrice: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  updateRentalPrice: TypedContractMethod<
-    [bikeId: BigNumberish, newPrice: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  verifyUser: TypedContractMethod<[user: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -1066,18 +679,8 @@ export interface Klunkaz extends BaseContract {
     nameOrSignature: "bikeIndex"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "deleteReview"
-  ): TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
     nameOrSignature: "endRental"
   ): TypedContractMethod<[bikeId: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "getAllBikes"
-  ): TypedContractMethod<[], [Klunkaz.BikeStructOutput[]], "view">;
   getFunction(
     nameOrSignature: "getApproved"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
@@ -1088,23 +691,6 @@ export interface Klunkaz extends BaseContract {
     [Klunkaz.BikeStructOutput],
     "view"
   >;
-  getFunction(
-    nameOrSignature: "getBikeDetails"
-  ): TypedContractMethod<
-    [bikeId: BigNumberish],
-    [Klunkaz.BikeDetailsStructOutput],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getBikeMetadata"
-  ): TypedContractMethod<
-    [bikeId: BigNumberish],
-    [Klunkaz.BikeMetadataStructOutput],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getHighestRatedProduct"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "getProductReviews"
   ): TypedContractMethod<
@@ -1120,19 +706,6 @@ export interface Klunkaz extends BaseContract {
     "view"
   >;
   getFunction(
-    nameOrSignature: "getUserReviews"
-  ): TypedContractMethod<[user: AddressLike], [bigint[]], "view">;
-  getFunction(
-    nameOrSignature: "hasLikedReview"
-  ): TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish, user: AddressLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "insureBike"
-  ): TypedContractMethod<[bikeId: BigNumberish], [void], "payable">;
-  getFunction(
     nameOrSignature: "isApprovedForAll"
   ): TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
@@ -1140,21 +713,12 @@ export interface Klunkaz extends BaseContract {
     "view"
   >;
   getFunction(
-    nameOrSignature: "likeReview"
-  ): TypedContractMethod<
-    [productId: BigNumberish, reviewIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
     nameOrSignature: "listBike"
   ): TypedContractMethod<
     [
       price: BigNumberish,
       details: Klunkaz.BikeDetailsStruct,
-      metadata: Klunkaz.BikeMetadataStruct,
-      listingType: BigNumberish,
-      rentalPrice: BigNumberish
+      metadata: Klunkaz.BikeMetadataStruct
     ],
     [bigint],
     "nonpayable"
@@ -1172,13 +736,6 @@ export interface Klunkaz extends BaseContract {
     nameOrSignature: "ownerOf"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "registerTracker"
-  ): TypedContractMethod<
-    [bikeId: BigNumberish, deviceAddress: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
@@ -1188,9 +745,6 @@ export interface Klunkaz extends BaseContract {
     [void],
     "payable"
   >;
-  getFunction(
-    nameOrSignature: "reviewsCounter"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256)"
   ): TypedContractMethod<
@@ -1237,20 +791,6 @@ export interface Klunkaz extends BaseContract {
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "unflagBikeAsStolen"
-  ): TypedContractMethod<[bikeId: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "updateListingType"
-  ): TypedContractMethod<
-    [
-      bikeId: BigNumberish,
-      newListingType: BigNumberish,
-      rentalPrice: BigNumberish
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
     nameOrSignature: "updatePrice"
   ): TypedContractMethod<
     [bikeId: BigNumberish, newPrice: BigNumberish],
@@ -1258,12 +798,8 @@ export interface Klunkaz extends BaseContract {
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "updateRentalPrice"
-  ): TypedContractMethod<
-    [bikeId: BigNumberish, newPrice: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "verifyUser"
+  ): TypedContractMethod<[user: AddressLike], [void], "nonpayable">;
 
   getEvent(
     key: "Approval"
@@ -1280,13 +816,6 @@ export interface Klunkaz extends BaseContract {
     ApprovalForAllEvent.OutputObject
   >;
   getEvent(
-    key: "BikeInsuranceUpdated"
-  ): TypedContractEvent<
-    BikeInsuranceUpdatedEvent.InputTuple,
-    BikeInsuranceUpdatedEvent.OutputTuple,
-    BikeInsuranceUpdatedEvent.OutputObject
-  >;
-  getEvent(
     key: "BikeListed"
   ): TypedContractEvent<
     BikeListedEvent.InputTuple,
@@ -1301,46 +830,11 @@ export interface Klunkaz extends BaseContract {
     BikeRentedEvent.OutputObject
   >;
   getEvent(
-    key: "BikeResold"
-  ): TypedContractEvent<
-    BikeResoldEvent.InputTuple,
-    BikeResoldEvent.OutputTuple,
-    BikeResoldEvent.OutputObject
-  >;
-  getEvent(
-    key: "BikeSold"
-  ): TypedContractEvent<
-    BikeSoldEvent.InputTuple,
-    BikeSoldEvent.OutputTuple,
-    BikeSoldEvent.OutputObject
-  >;
-  getEvent(
-    key: "BikeStatusUpdated"
-  ): TypedContractEvent<
-    BikeStatusUpdatedEvent.InputTuple,
-    BikeStatusUpdatedEvent.OutputTuple,
-    BikeStatusUpdatedEvent.OutputObject
-  >;
-  getEvent(
-    key: "ListingTypeUpdated"
-  ): TypedContractEvent<
-    ListingTypeUpdatedEvent.InputTuple,
-    ListingTypeUpdatedEvent.OutputTuple,
-    ListingTypeUpdatedEvent.OutputObject
-  >;
-  getEvent(
     key: "OwnershipTransferred"
   ): TypedContractEvent<
     OwnershipTransferredEvent.InputTuple,
     OwnershipTransferredEvent.OutputTuple,
     OwnershipTransferredEvent.OutputObject
-  >;
-  getEvent(
-    key: "PriceUpdated"
-  ): TypedContractEvent<
-    PriceUpdatedEvent.InputTuple,
-    PriceUpdatedEvent.OutputTuple,
-    PriceUpdatedEvent.OutputObject
   >;
   getEvent(
     key: "RentalEnded"
@@ -1350,39 +844,11 @@ export interface Klunkaz extends BaseContract {
     RentalEndedEvent.OutputObject
   >;
   getEvent(
-    key: "RentalPriceUpdated"
-  ): TypedContractEvent<
-    RentalPriceUpdatedEvent.InputTuple,
-    RentalPriceUpdatedEvent.OutputTuple,
-    RentalPriceUpdatedEvent.OutputObject
-  >;
-  getEvent(
     key: "ReviewAdded"
   ): TypedContractEvent<
     ReviewAddedEvent.InputTuple,
     ReviewAddedEvent.OutputTuple,
     ReviewAddedEvent.OutputObject
-  >;
-  getEvent(
-    key: "ReviewDeleted"
-  ): TypedContractEvent<
-    ReviewDeletedEvent.InputTuple,
-    ReviewDeletedEvent.OutputTuple,
-    ReviewDeletedEvent.OutputObject
-  >;
-  getEvent(
-    key: "ReviewLiked"
-  ): TypedContractEvent<
-    ReviewLikedEvent.InputTuple,
-    ReviewLikedEvent.OutputTuple,
-    ReviewLikedEvent.OutputObject
-  >;
-  getEvent(
-    key: "TrackerRegistered"
-  ): TypedContractEvent<
-    TrackerRegisteredEvent.InputTuple,
-    TrackerRegisteredEvent.OutputTuple,
-    TrackerRegisteredEvent.OutputObject
   >;
   getEvent(
     key: "Transfer"
@@ -1415,17 +881,6 @@ export interface Klunkaz extends BaseContract {
       ApprovalForAllEvent.OutputObject
     >;
 
-    "BikeInsuranceUpdated(uint256,bool)": TypedContractEvent<
-      BikeInsuranceUpdatedEvent.InputTuple,
-      BikeInsuranceUpdatedEvent.OutputTuple,
-      BikeInsuranceUpdatedEvent.OutputObject
-    >;
-    BikeInsuranceUpdated: TypedContractEvent<
-      BikeInsuranceUpdatedEvent.InputTuple,
-      BikeInsuranceUpdatedEvent.OutputTuple,
-      BikeInsuranceUpdatedEvent.OutputObject
-    >;
-
     "BikeListed(uint256,address,uint256)": TypedContractEvent<
       BikeListedEvent.InputTuple,
       BikeListedEvent.OutputTuple,
@@ -1437,7 +892,7 @@ export interface Klunkaz extends BaseContract {
       BikeListedEvent.OutputObject
     >;
 
-    "BikeRented(uint256,address,uint256,uint256)": TypedContractEvent<
+    "BikeRented(uint256,address,uint256)": TypedContractEvent<
       BikeRentedEvent.InputTuple,
       BikeRentedEvent.OutputTuple,
       BikeRentedEvent.OutputObject
@@ -1446,50 +901,6 @@ export interface Klunkaz extends BaseContract {
       BikeRentedEvent.InputTuple,
       BikeRentedEvent.OutputTuple,
       BikeRentedEvent.OutputObject
-    >;
-
-    "BikeResold(uint256,address,address,uint256)": TypedContractEvent<
-      BikeResoldEvent.InputTuple,
-      BikeResoldEvent.OutputTuple,
-      BikeResoldEvent.OutputObject
-    >;
-    BikeResold: TypedContractEvent<
-      BikeResoldEvent.InputTuple,
-      BikeResoldEvent.OutputTuple,
-      BikeResoldEvent.OutputObject
-    >;
-
-    "BikeSold(uint256,address,address,uint256)": TypedContractEvent<
-      BikeSoldEvent.InputTuple,
-      BikeSoldEvent.OutputTuple,
-      BikeSoldEvent.OutputObject
-    >;
-    BikeSold: TypedContractEvent<
-      BikeSoldEvent.InputTuple,
-      BikeSoldEvent.OutputTuple,
-      BikeSoldEvent.OutputObject
-    >;
-
-    "BikeStatusUpdated(uint256,bool)": TypedContractEvent<
-      BikeStatusUpdatedEvent.InputTuple,
-      BikeStatusUpdatedEvent.OutputTuple,
-      BikeStatusUpdatedEvent.OutputObject
-    >;
-    BikeStatusUpdated: TypedContractEvent<
-      BikeStatusUpdatedEvent.InputTuple,
-      BikeStatusUpdatedEvent.OutputTuple,
-      BikeStatusUpdatedEvent.OutputObject
-    >;
-
-    "ListingTypeUpdated(uint256,uint8)": TypedContractEvent<
-      ListingTypeUpdatedEvent.InputTuple,
-      ListingTypeUpdatedEvent.OutputTuple,
-      ListingTypeUpdatedEvent.OutputObject
-    >;
-    ListingTypeUpdated: TypedContractEvent<
-      ListingTypeUpdatedEvent.InputTuple,
-      ListingTypeUpdatedEvent.OutputTuple,
-      ListingTypeUpdatedEvent.OutputObject
     >;
 
     "OwnershipTransferred(address,address)": TypedContractEvent<
@@ -1503,17 +914,6 @@ export interface Klunkaz extends BaseContract {
       OwnershipTransferredEvent.OutputObject
     >;
 
-    "PriceUpdated(uint256,uint256)": TypedContractEvent<
-      PriceUpdatedEvent.InputTuple,
-      PriceUpdatedEvent.OutputTuple,
-      PriceUpdatedEvent.OutputObject
-    >;
-    PriceUpdated: TypedContractEvent<
-      PriceUpdatedEvent.InputTuple,
-      PriceUpdatedEvent.OutputTuple,
-      PriceUpdatedEvent.OutputObject
-    >;
-
     "RentalEnded(uint256,address)": TypedContractEvent<
       RentalEndedEvent.InputTuple,
       RentalEndedEvent.OutputTuple,
@@ -1525,18 +925,7 @@ export interface Klunkaz extends BaseContract {
       RentalEndedEvent.OutputObject
     >;
 
-    "RentalPriceUpdated(uint256,uint256)": TypedContractEvent<
-      RentalPriceUpdatedEvent.InputTuple,
-      RentalPriceUpdatedEvent.OutputTuple,
-      RentalPriceUpdatedEvent.OutputObject
-    >;
-    RentalPriceUpdated: TypedContractEvent<
-      RentalPriceUpdatedEvent.InputTuple,
-      RentalPriceUpdatedEvent.OutputTuple,
-      RentalPriceUpdatedEvent.OutputObject
-    >;
-
-    "ReviewAdded(uint256,address,uint256,string)": TypedContractEvent<
+    "ReviewAdded(uint256,address,uint256)": TypedContractEvent<
       ReviewAddedEvent.InputTuple,
       ReviewAddedEvent.OutputTuple,
       ReviewAddedEvent.OutputObject
@@ -1545,39 +934,6 @@ export interface Klunkaz extends BaseContract {
       ReviewAddedEvent.InputTuple,
       ReviewAddedEvent.OutputTuple,
       ReviewAddedEvent.OutputObject
-    >;
-
-    "ReviewDeleted(uint256,uint256)": TypedContractEvent<
-      ReviewDeletedEvent.InputTuple,
-      ReviewDeletedEvent.OutputTuple,
-      ReviewDeletedEvent.OutputObject
-    >;
-    ReviewDeleted: TypedContractEvent<
-      ReviewDeletedEvent.InputTuple,
-      ReviewDeletedEvent.OutputTuple,
-      ReviewDeletedEvent.OutputObject
-    >;
-
-    "ReviewLiked(uint256,uint256,address,uint256)": TypedContractEvent<
-      ReviewLikedEvent.InputTuple,
-      ReviewLikedEvent.OutputTuple,
-      ReviewLikedEvent.OutputObject
-    >;
-    ReviewLiked: TypedContractEvent<
-      ReviewLikedEvent.InputTuple,
-      ReviewLikedEvent.OutputTuple,
-      ReviewLikedEvent.OutputObject
-    >;
-
-    "TrackerRegistered(uint256,address)": TypedContractEvent<
-      TrackerRegisteredEvent.InputTuple,
-      TrackerRegisteredEvent.OutputTuple,
-      TrackerRegisteredEvent.OutputObject
-    >;
-    TrackerRegistered: TypedContractEvent<
-      TrackerRegisteredEvent.InputTuple,
-      TrackerRegisteredEvent.OutputTuple,
-      TrackerRegisteredEvent.OutputObject
     >;
 
     "Transfer(address,address,uint256)": TypedContractEvent<

@@ -3,4 +3,8 @@
 /* eslint-disable */
 import type * as libraries from "./libraries";
 export type { libraries };
+export type { BikeLib } from "./BikeLib";
 export type { Klunkaz } from "./Klunkaz";
+export type { KlunkazBase } from "./KlunkazBase";
+export type { KlunkazMain } from "./KlunkazMain";
+export type { KlunkazStorage } from "./KlunkazStorage";

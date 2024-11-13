@@ -1,0 +1,87 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "BikeLib",
+  "sourceName": "contracts/BikeLib.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "bikeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isValid",
+          "type": "bool"
+        }
+      ],
+      "name": "BikeValidated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "bikeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "rate",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsuranceCalculated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "bikeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "locationHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LocationUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "bikeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "message",
+          "type": "string"
+        }
+      ],
+      "name": "ValidationError",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x608060405234601b575b60405160436027823930815050604390f35b6022600080fd5b600956fe6080604052600b600080fd5b00fea26469706673582212208cb2f6bd57dc19a54a6099be2b9f79d52c457fc4a5e0126d80da9e05405d749164736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600b600080fd5b00fea26469706673582212208cb2f6bd57dc19a54a6099be2b9f79d52c457fc4a5e0126d80da9e05405d749164736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
